@@ -28,6 +28,14 @@ function formatTimestamp(datestring) {
   return timestamp;
 }
 
+function formatSubject (subject) {
+  return subject.length > 33 ? subject.substring(0, 33) + '...' : subject;
+}
+
+function formatSnippet (snippet) {
+  return snippet.length > 77 ? snippet.substring(0, 77) + '...' : snippet;
+}
+
 function renderSidebar() {
   const sidebarContents = `
     <h2 class="email-header">Inbox</h2>
@@ -42,10 +50,10 @@ function renderSidebar() {
 
   for (const m of newMessageIDs) {
     const payloadHeaders = allMessages[m].payload.headers;
-    const snippet = allMessages[m].snippet;
+    const snippet = formatSnippet(allMessages[m].snippet);
     const timestamp = formatTimestamp(payloadHeaders[0].value);
     const sender = payloadHeaders[1].value.match(/([A-Z])\w+/g).join(' ');
-    const subject = payloadHeaders[3].value;
+    const subject = formatSubject(payloadHeaders[3].value);
     renderNewMessage(sender, timestamp, subject, snippet);
   }
 }
