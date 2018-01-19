@@ -22,6 +22,14 @@ function renderNewMessage(sender, timestamp, subject, snippet) {
 function renderSidebar() {
   const sidebarContents = `
     <h2 class="email-header">Inbox</h2>
+      <button class="email-item" type="button">
+        <div class="sender-details">
+          <p>Sender</p>
+          <span>Timestamp</span>
+        </div>
+        <p class="email-subject">Subject</p>
+        <p>Snippet</p>
+      </button>
     <ul class="email-list"></ul>
   `;
 
