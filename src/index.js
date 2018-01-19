@@ -7,7 +7,7 @@ import * as emails from './store/emails.json';
 function renderNewMessage(sender, timestamp, subject, snippet) {
   const sidebar = document.querySelector('.email-list');
   const newMessage = document.createElement('li');
-  newMessage.innerHTMl = `<button class="email-item" type="button">
+  newMessage.innerHTML = `<button class="email-item" type="button">
                             <div class="sender-details">
                               <p>${sender}</p>
                               <span>${timestamp}</span>
@@ -16,20 +16,21 @@ function renderNewMessage(sender, timestamp, subject, snippet) {
                             <p>${snippet}</p>
                           </button>`;
   sidebar.appendChild(newMessage);
-  console.log(newMessage);
+}
+
+
+function formatTimestamp(datestring) {
+  const d = new Date(datestring);
+  const month = d.getMonth() + 1;
+  const day = d.getDay();
+  const year = String(d.getFullYear()).substring(2);
+  const timestamp = `${month}/${day}/${year}`;
+  return timestamp;
 }
 
 function renderSidebar() {
   const sidebarContents = `
     <h2 class="email-header">Inbox</h2>
-      <button class="email-item" type="button">
-        <div class="sender-details">
-          <p>Sender</p>
-          <span>Timestamp</span>
-        </div>
-        <p class="email-subject">Subject</p>
-        <p>Snippet</p>
-      </button>
     <ul class="email-list"></ul>
   `;
 
@@ -38,13 +39,12 @@ function renderSidebar() {
 
   const newMessageIDs = emails.mailboxes.INBOX.threadIds;
   const allMessages = emails.messages;
-  console.log(allMessages);
 
-  for (let m of newMessageIDs) {
+  for (const m of newMessageIDs) {
     const payloadHeaders = allMessages[m].payload.headers;
     const snippet = allMessages[m].snippet;
-    const timestamp = payloadHeaders[0].value;
-    const sender = payloadHeaders[1].value;
+    const timestamp = formatTimestamp(payloadHeaders[0].value);
+    const sender = payloadHeaders[1].value.match(/([A-Z])\w+/g).join(' ');
     const subject = payloadHeaders[3].value;
     renderNewMessage(sender, timestamp, subject, snippet);
   }
