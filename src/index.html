@@ -8,9 +8,21 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   </head>
   <body>
+    <header>
+      <h1>jsMail</h1>
+    </header>
     <div class="wrapper">
+      <nav class="client-nav">
+        <ul class="client-nav-items">
+          <li class="client-nav-item active">INBOX</li>
+          <li class="client-nav-item">SENT</li>
+          <li class="client-nav-item">DRAFTS</li>
+          <li class="client-nav-item">ACTIONS</li>
+        </ul>
+      </nav>
       <div class="email-client">
         <aside class="email-list-container">
+          <ul class="email-list"></ul>
         </aside>
         <main class="email-show-container">
           <h2 class="email-header">Selected email</h2>

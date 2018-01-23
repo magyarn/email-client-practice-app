@@ -38,12 +38,11 @@ function formatSnippet (snippet) {
 
 function renderSidebar() {
   const sidebarContents = `
-    <h2 class="email-header">Inbox</h2>
     <ul class="email-list"></ul>
   `;
 
-  const container = document.querySelector('.email-list-container');
-  if (container != null) container.innerHTML = sidebarContents;
+  const container = document.querySelector('.email-list');
+  if (container != null) container.innerHTML += sidebarContents;
 
   const newMessageIDs = emails.mailboxes.INBOX.threadIds;
   const allMessages = emails.messages;
