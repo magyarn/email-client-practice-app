@@ -37,7 +37,7 @@
         "mimeType": "multipart/alternative",
         "filename": "",
         "headers": [
-          { "name": "Date", "value": "Fri, 8 Dec 2017 12:32:19 +0500" },
+          { "name": "Date", "value": "Fri Jan 26 2018 08:35:06 GMT-0500 (EST)" },
           {
             "name": "From",
             "value": "Kathleen Fortnite \\u003ckfort@ufish.edu\\u003e"
