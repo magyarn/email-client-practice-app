@@ -31,13 +31,13 @@
       "labelIds": ["INBOX", "CATEGORY_PERSONAL", "IMPORTANT"],
       "snippet":
         "Hi Jeremy, We met last Wednesday to discuss your recent change of major. All the paperwork has been finished and you are officially a Computer Science major. I have some time about two weeks from now ",
-      "internalDate": "1512718339000",
+      "internalDate": "1517250827816",
       "payload": {
         "partId": "",
         "mimeType": "multipart/alternative",
         "filename": "",
         "headers": [
-          { "name": "Date", "value": "Fri, 8 Dec 2017 12:32:19 +0500" },
+          { "name": "Date", "value": "Mon, 29 Jan 2018 16:21:02 +0500" },
           {
             "name": "From",
             "value": "Kathleen Fortnite \\u003ckfort@ufish.edu\\u003e"
