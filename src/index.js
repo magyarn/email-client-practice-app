@@ -11,7 +11,7 @@ function renderSidebar() {
         <span>${thread.timestamp}</span>
       </div>
       <p class="email-subject">${thread.subject}</p>
-      <p>${thread.snippet}</p>
+      <p class="snippet">${thread.snippet}</p>
     </button>
   </li>`, '');
   const sidebarContents = `

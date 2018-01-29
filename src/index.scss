@@ -115,6 +115,10 @@ header {
     transition: all 0.3s;
   }
 
+  .snippet {
+    color: #999;
+  }
+
   &:hover {
     .email-subject {
       color: $purple;

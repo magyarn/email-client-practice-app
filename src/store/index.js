@@ -25,6 +25,10 @@ function formatSender(sender) {
   return sender.match(/.+?(?=\\u003)/)[0];
 }
 
+function formatSnippet(snippet) {
+  return `${snippet.substr(0, 60)}...`;
+}
+
 function getHeaderValue(headers, name) {
   const { value } = headers.filter(header => header.name === name)[0];
   if (name === 'Date') {
@@ -43,18 +47,15 @@ export function getThreads() {
     const [newestMessage] = threads[id].messages.slice(-1);
     const message = store.messages[newestMessage.id];
     const { headers } = message.payload;
-    const sender = getHeaderValue(headers, 'From');
-    const timestamp = getHeaderValue(headers, 'Date');
-    const subject = getHeaderValue(headers, 'Subject') || '(No Subject)';
-    const { snippet } = message;
     return {
-      sender,
-      timestamp,
-      subject,
-      snippet,
+      sender: getHeaderValue(headers, 'From'),
+      timestamp: getHeaderValue(headers, 'Date'),
+      subject: getHeaderValue(headers, 'Subject') || '(No Subject)',
+      snippet: formatSnippet(message.snippet),
+      rawTimestamp: message.internalDate,
     };
   });
-  return threadObjects;
+  return threadObjects.sort((a, b) => b.rawTimestamp - a.rawTimestamp);
 }
 
 export default store;
