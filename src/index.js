@@ -3,8 +3,8 @@
  */
 import { getThreads } from './store';
 
-function renderSidebar() {
-  const messageLIs = getThreads().reduce((html, thread) => `${html} <li>
+function renderSidebar(mailboxName = 'INBOX') {
+  const messageLIs = getThreads(mailboxName).reduce((html, thread) => `${html} <li>
   <button class="email-item" type="button">
       <div class="sender-details">
         <p>${thread.sender}</p>
@@ -18,7 +18,21 @@ function renderSidebar() {
     <ul class="email-list">${messageLIs}</ul>
   `;
   const container = document.querySelector('.email-list');
-  if (container != null) container.innerHTML += sidebarContents;
+  if (container != null) container.innerHTML = sidebarContents;
 }
 
-renderSidebar();
+function renderMailbox(eventTarget) {
+  const mailboxName = eventTarget.textContent;
+  const activeMB = document.querySelector('.active');
+  activeMB.classList.remove('active');
+  eventTarget.classList.add('active');
+  renderSidebar(mailboxName);
+}
+
+function addNavEventListeners() {
+  const navItems = document.querySelectorAll('.client-nav-item');
+  navItems.forEach(item =>
+    item.addEventListener('click', e => renderMailbox(e.target)));
+}
+
+addNavEventListeners();

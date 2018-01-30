@@ -40,10 +40,11 @@ function getHeaderValue(headers, name) {
   return value;
 }
 
-export function getThreads() {
+export function getThreads(mailboxName) {
   const { mailboxes, threads } = store;
-  const inbox = mailboxes.INBOX;
-  const threadObjects = inbox.threadIds.map((id) => {
+  // const inbox = mailboxes.INBOX;
+  const mailbox = mailboxes[mailboxName];
+  const threadObjects = mailbox.threadIds.map((id) => {
     const [newestMessage] = threads[id].messages.slice(-1);
     const message = store.messages[newestMessage.id];
     const { headers } = message.payload;
