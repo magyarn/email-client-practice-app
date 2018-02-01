@@ -41,9 +41,9 @@ function getHeaderValue(headers, name) {
 }
 
 export function getThreads(mailboxName) {
+  const mailboxKey = Object.keys(allMailboxes).find(key => allMailboxes[key] === mailboxName);
   const { mailboxes, threads } = store;
-  // const inbox = mailboxes.INBOX;
-  const mailbox = mailboxes[mailboxName];
+  const mailbox = mailboxes[mailboxKey];
   const threadObjects = mailbox.threadIds.map((id) => {
     const [newestMessage] = threads[id].messages.slice(-1);
     const message = store.messages[newestMessage.id];
@@ -57,6 +57,28 @@ export function getThreads(mailboxName) {
     };
   });
   return threadObjects.sort((a, b) => b.rawTimestamp - a.rawTimestamp);
+}
+
+const allMailboxes = {
+  INBOX: 'INBOX',
+  SPAM: 'SPAM',
+  TRASH: 'TRASH',
+  UNREAD: 'UNREAD',
+  STARRED: 'STARRED',
+  IMPORTANT: 'IMPORTANT',
+  SENT: 'SENT',
+  DRAFT: 'DRAFT',
+  CATEGORY_PERSONAL: 'PERSONAL',
+  CATEGORY_SOCIAL: 'SOCIAL',
+  CATEGORY_PROMOTIONS: 'PROMOTIONS',
+  CATEGORY_UPDATES: 'UPDATES',
+  CATEGORY_FORUMS: 'FORUMS',
+};
+
+export function getMailboxes() {
+  const { mailboxes } = store;
+  const mbNames = Object.keys(mailboxes);
+  return mbNames.map(name => allMailboxes[name] || name);
 }
 
 export default store;

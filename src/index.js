@@ -1,7 +1,16 @@
 /**
  * @flow
  */
-import { getThreads } from './store';
+import { getThreads, getMailboxes } from './store';
+
+function renderNavigation() {
+  const mailboxNames = getMailboxes();
+  const navigationUL = document.querySelector('.client-nav-items');
+  const navItems = mailboxNames.map(name =>
+    name === 'INBOX' ? `<li class="client-nav-item active">${name}</li>` :
+      `<li class="client-nav-item">${name}</li>`).join('');
+  navigationUL.innerHTML = navItems;
+}
 
 function renderSidebar(mailboxName = 'INBOX') {
   const messageLIs = getThreads(mailboxName).reduce((html, thread) => `${html} <li>
@@ -35,4 +44,6 @@ function addNavEventListeners() {
     item.addEventListener('click', e => renderMailbox(e.target)));
 }
 
+renderNavigation();
+renderSidebar();
 addNavEventListeners();
