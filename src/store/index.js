@@ -50,7 +50,7 @@ function getHeaderValue(headers, name) {
 /* Returns a chronological array of message objects for a given mailbox. Called
 in renderSidebar() in src/index.js */
 export function getThreads(mailboxName) {
-  const mailboxKey = Object.keys(allMailboxes).find(key => allMailboxes[key] === mailboxName);
+  const mailboxKey = Object.keys(cleanMailboxNames).find(key => cleanMailboxNames[key] === mailboxName) || mailboxName;
   const { mailboxes, threads } = store;
   const mailbox = mailboxes[mailboxKey];
   const threadObjects = mailbox.threadIds.map((id) => {
@@ -71,15 +71,7 @@ export function getThreads(mailboxName) {
 /* Object of possible mailbox names as defined by the gmail API, with values
 in my preferred format. Used to convert ugly mailbox names to pretty ones in
 getMailboxes() */
-const allMailboxes = {
-  INBOX: 'INBOX',
-  SPAM: 'SPAM',
-  TRASH: 'TRASH',
-  UNREAD: 'UNREAD',
-  STARRED: 'STARRED',
-  IMPORTANT: 'IMPORTANT',
-  SENT: 'SENT',
-  DRAFT: 'DRAFT',
+const cleanMailboxNames = {
   CATEGORY_PERSONAL: 'PERSONAL',
   CATEGORY_SOCIAL: 'SOCIAL',
   CATEGORY_PROMOTIONS: 'PROMOTIONS',
@@ -88,12 +80,12 @@ const allMailboxes = {
 };
 
 /* Gets all the mailbox names from a given JSON store, and converts it to the
-pretty version of that name, if it exists in allMailboxes. Called in
-renderNavigation() of src/index.js */
+pretty version of that name, if it exists in cleanMailboxNames. Called in
+oneTimeNavLoad() of src/index.js */
 export function getMailboxes() {
   const { mailboxes } = store;
   const mbNames = Object.keys(mailboxes);
-  return mbNames.map(name => allMailboxes[name] || name);
+  return mbNames.map(name => cleanMailboxNames[name] || name);
 }
 
 export default store;

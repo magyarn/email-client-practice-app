@@ -7,12 +7,12 @@ import { getThreads, getMailboxes } from './store';
 getMailboxes() to find out which ones to render based on what's in the JSON
 file. And since INBOX is the default mailbox to render, start with applying the
 "active" class to that li for styling purposes  */
-function renderNavigation() {
+function oneTimeNavRender() {
   const mailboxNames = getMailboxes();
   const navigationUL = document.querySelector('.client-nav-items');
   const navItems = mailboxNames.map(name =>
-    name === 'INBOX' ? `<li class="client-nav-item active">${name}</li>` :
-      `<li class="client-nav-item">${name}</li>`).join('');
+    name === 'INBOX' ? `<li class="client-nav-item"><button class="nav-btn active">${name}</button></li>` :
+      `<li class="client-nav-item"><button class="nav-btn">${name}</button></li>`).join('');
   navigationUL.innerHTML = navItems;
 }
 
@@ -49,7 +49,7 @@ function renderMailbox(eventTarget) {
 }
 
 /* Called on pageload and applied to all items in the navigation that was just
-rendered by renderNavigation() */
+rendered by oneTimeNavRender() */
 function addNavEventListeners() {
   const navItems = document.querySelectorAll('.client-nav-item');
   navItems.forEach(item =>
@@ -57,6 +57,6 @@ function addNavEventListeners() {
 }
 
 /* Invoke the above functions to render elements and add event listeners */
-renderNavigation();
+oneTimeNavRender();
 renderSidebar();
 addNavEventListeners();
