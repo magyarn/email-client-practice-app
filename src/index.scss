@@ -60,6 +60,10 @@ header {
   font-size: 0.9rem;
 }
 
+.email-show-container {
+  overflow-y: scroll;
+}
+
 .client-nav {
   box-shadow: $shadow-2;
   background-color: $white;

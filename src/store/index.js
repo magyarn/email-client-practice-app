@@ -3,6 +3,7 @@
  */
 
 import type { Data, Message } from './types';
+import Base64 from '../utility/Base64.js';
 
 const store: Data = require('./emails.json');
 
@@ -57,7 +58,9 @@ export function getThreads(mailboxName) {
     const [newestMessage] = threads[id].messages.slice(-1);
     const message = store.messages[newestMessage.id];
     const { headers } = message.payload;
+    const messageID = id;
     return {
+      id: messageID,
       sender: getHeaderValue(headers, 'From'),
       timestamp: getHeaderValue(headers, 'Date'),
       subject: getHeaderValue(headers, 'Subject') || '(No Subject)',
@@ -86,6 +89,20 @@ export function getMailboxes() {
   const { mailboxes } = store;
   const mbNames = Object.keys(mailboxes);
   return mbNames.map(name => cleanMailboxNames[name] || name);
+}
+
+export function getMessage(id) {
+  const { messages } = store;
+  const { parts } = messages[id].payload;
+  let htmlContent = null;
+  parts.forEach((part) => {
+    const { mimeType } = part;
+    if (mimeType === 'text/html') {
+      const { data } = part.body;
+      htmlContent = Base64.decode(data);
+    }
+  });
+  return htmlContent;
 }
 
 export default store;

@@ -1,7 +1,7 @@
 /**
  * @flow
  */
-import { getThreads, getMailboxes } from './store';
+import { getThreads, getMailboxes, getMessage } from './store';
 
 /* Called once at the beginning of pageload. In the function, call
 getMailboxes() to find out which ones to render based on what's in the JSON
@@ -16,13 +16,19 @@ function oneTimeNavRender() {
   navigationUL.innerHTML = navItems;
 }
 
+function displayMessage(e) {
+  const threadID = e.currentTarget.id;
+  const htmlContent = getMessage(threadID);
+  document.querySelector('.email-show-container').innerHTML = htmlContent;
+}
+
 /* Pass a mailboxName parameter to the function to decide which threads to show.
 INBOX is the default, so it will show inbox threads on pageload.
 This function is called by renderMailbox() */
 function renderSidebar(mailboxName = 'INBOX') {
   const messageLIs = getThreads(mailboxName).reduce((html, thread) => `
     ${html} <li>
-  <button class="email-item" type="button">
+  <button class="email-item" type="button" id="${thread.id}">
       <div class="sender-details">
         <p>${thread.sender}</p>
         <span>${thread.timestamp}</span>
@@ -36,6 +42,9 @@ function renderSidebar(mailboxName = 'INBOX') {
   `;
   const container = document.querySelector('.email-list');
   if (container != null) container.innerHTML = sidebarContents;
+  const emailItems = document.querySelectorAll('.email-item');
+  emailItems.forEach(item =>
+    item.addEventListener('click', e => displayMessage(e)))
 }
 
 /* Called by addNavEventListeners(), this function invokes the renderSidebar
